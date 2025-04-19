@@ -8,13 +8,15 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // ISSUE: Sending password as plain text
-    const response = await axios.post("http://localhost:5000/api/users/register", {
-      username,
-      password,
-    });
-
-    alert(response.data.message);
+    try {
+      const response = await axios.post("http://localhost:8080/api/users/register", {
+        username,
+        password,
+      }, { withCredentials: true });
+      alert(response.data.message);
+    } catch (err) {
+      alert(err.response?.data?.message || "Registration failed");
+    }
   };
 
   return (

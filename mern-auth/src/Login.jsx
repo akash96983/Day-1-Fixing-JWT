@@ -8,17 +8,14 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // ISSUE: Hardcoded JWT secret (very insecure)
-    const response = await axios.post("http://localhost:5000/api/users/login", {
-      username,
-      password,
-    });
-
-    if (response.data.token) {
-      localStorage.setItem("token", response.data.token);
-      alert("Login successful!");
-    } else {
-      alert("Invalid credentials");
+    try {
+      const response = await axios.post("http://localhost:8080/api/users/login", {
+        username,
+        password,
+      }, { withCredentials: true });
+      alert(response.data.message);
+    } catch (err) {
+      alert(err.response?.data?.message || "Login failed");
     }
   };
 
